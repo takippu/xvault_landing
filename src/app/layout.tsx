@@ -33,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <head>
+        <meta name="google-site-verification" content="e7-qmPzeQhE7U0WbsblhVLTuSHYjMyM0UDJO7rnIirU" />
         {/* Favicon */}
         <link rel="icon" type="image/svg+xml" href="/icon/xvault.svg" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icon/16x16.png" />
