@@ -17,23 +17,23 @@ export default function FAQSection() {
     },
     {
       question: "Is my data secure with xVault?",
-      answer: "Yes, xVault uses end-to-end encryption to ensure that your data is only accessible to you. Your snippets are encrypted before they leave your device, and we don't have access to your encryption keys."
+      answer: "Yes, xVault uses end-to-end encryption to ensure that your data is only accessible to you. Your snippets are encrypted by choice and only stored in your browser, and we don't have access to your encryption keys."
     },
     {
       question: "Can I use xVault on multiple devices?",
-      answer: "Yes, with our Pro and Team plans, you can sync your snippets across multiple devices using our secure cloud synchronization feature."
+      answer: "Yes, you can use xVault on multiple devices, as long as you have the extension installed. However, as we don't store your snippets on cloud, we couldn't sync the snippets, therefore you must export it to the new browser."
     },
     {
       question: "How many snippets can I store?",
-      answer: "The free plan allows up to 50 snippets. Our Pro and Team plans offer unlimited snippet storage."
+      answer: "The free plan allows up to 19 snippets. Our Paid plan offer unlimited snippet storage."
     },
     {
       question: "Can I organize my snippets into folders?",
-      answer: "Yes, all plans include folder organization. The free plan includes basic folder functionality, while Pro and Team plans offer advanced folder organization with nested folders and tags."
+      answer: "Yes, all plans include folder organization."
     },
     {
       question: "Is there a mobile app for xVault?",
-      answer: "Currently, xVault is available as a Chrome extension. We're working on mobile apps and will announce them soon!"
+      answer: "Currently, xVault is only available as a Chrome extension."
     }
   ];
 
@@ -78,10 +78,10 @@ export default function FAQSection() {
         <div className="mt-16 text-center">
           <p className="text-secondaryText mb-6">Still have questions?</p>
           <a 
-            href="#" 
+            href="https://linkedin.com/in/thaqifrosdi" 
             className="btn-secondary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105"
           >
-            <i className="fas fa-envelope mr-2"></i> Contact Support
+            <i className="fas fa-envelope mr-2"></i> Contact Me
           </a>
         </div>
       </div>

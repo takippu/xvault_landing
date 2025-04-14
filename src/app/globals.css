@@ -162,3 +162,7 @@ body {
 .dark #theme-toggle-ball {
   transform: translateX(16px);
 }
+
+.pricing-premium {
+  background: var(--color-hover);
+}

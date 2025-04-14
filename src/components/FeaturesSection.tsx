@@ -44,14 +44,22 @@ export default function FeaturesSection() {
             <h3 className="text-xl font-bold mb-3">One-Click Copy</h3>
             <p className="text-secondaryText">Copy any snippet to your clipboard with just one click for maximum efficiency.</p>
           </div>
-          
+
           <div className="feature-card p-6 rounded-xl group">
+            <div className="w-14 h-14 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <i className="fas fa-shield text-2xl text-primaryBtn"></i>
+            </div>
+            <h3 className="text-xl font-bold mb-3">Secured Import and Export</h3>
+            <p className="text-secondaryText">Import and export your snippets securely using encryption with a password set by yourselves. </p>
+          </div>
+
+          {/* <div className="feature-card p-6 rounded-xl group">
             <div className="w-14 h-14 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
               <i className="fas fa-cloud-upload-alt text-2xl text-primaryBtn"></i>
             </div>
             <h3 className="text-xl font-bold mb-3">Cloud Sync</h3>
             <p className="text-secondaryText">Access your snippets across all your devices with secure cloud synchronization.</p>
-          </div>
+          </div> */}
           
           <div className="feature-card p-6 rounded-xl group">
             <div className="w-14 h-14 bg-secondaryText bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">

@@ -34,12 +34,12 @@ export default function HeroSection() {
           <div className="mt-8 flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
             <div className="flex items-center space-x-2">
               <div className="flex -space-x-2">
-                <Image src="https://randomuser.me/api/portraits/women/12.jpg" className="w-10 h-10 rounded-full border-2 border-base" alt="User" width={40} height={40} />
-                <Image src="https://randomuser.me/api/portraits/men/43.jpg" className="w-10 h-10 rounded-full border-2 border-base" alt="User" width={40} height={40} />
-                <Image src="https://randomuser.me/api/portraits/women/34.jpg" className="w-10 h-10 rounded-full border-2 border-base" alt="User" width={40} height={40} />
+                <Image src="/icon/32x32.png" className="w-10 h-10 rounded-full border-2 border-base" alt="User" width={40} height={40} />
+                {/* <Image src="https://randomuser.me/api/portraits/men/43.jpg" className="w-10 h-10 rounded-full border-2 border-base" alt="User" width={40} height={40} />
+                <Image src="https://randomuser.me/api/portraits/women/34.jpg" className="w-10 h-10 rounded-full border-2 border-base" alt="User" width={40} height={40} /> */}
               </div>
               <div>
-                <p className="text-sm">Trusted by <span className="font-bold">10,000+</span> users</p>
+                <p className="text-sm">Trusted by <span className="font-bold">1</span> user (myself)</p>
                 <div className="flex items-center">
                   <i className="fas fa-star text-yellow-400"></i>
                   <i className="fas fa-star text-yellow-400"></i>
@@ -84,7 +84,7 @@ export default function HeroSection() {
                   </h3>
                   
                   {/* Folder Item */}
-                  <div className=" text-white rounded-md p-2 mb-2 flex items-center justify-between">
+                  <div className="  rounded-md p-2 mb-2 flex items-center justify-between">
                     <span>APIs</span>
                     <span className="text-xs">(1)</span>
                   </div>

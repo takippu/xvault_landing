@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-secondaryText mb-4 md:mb-0">© 2023 xVault. All rights reserved.</p>
+          <p className="text-secondaryText mb-4 md:mb-0">© 2025 xVault. All rights reserved.</p>
           <div className="flex space-x-6">
             <Link href="/privacy-policy" className="text-secondaryText hover:text-hoverText">Privacy Policy</Link>
             <Link href="/terms-of-service" className="text-secondaryText hover:text-hoverText">Terms of Service</Link>

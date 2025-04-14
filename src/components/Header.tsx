@@ -21,6 +21,7 @@ export default function Header() {
         <div className="bg-base bg-opacity-95 backdrop-blur-sm flex-1 flex flex-col">
           <div className="flex justify-between items-center p-6 border-b border-border">
             <div className="flex items-center space-x-2">
+              <img src="/icon/32x32.png" alt="xVault Logo" className="w-8 h-8" />
               <span className="text-2xl font-bold bg-gradient-to-r from-primary-btn to-hover bg-clip-text text-transparent">xVault</span>
             </div>
             <button 
@@ -33,10 +34,10 @@ export default function Header() {
             </button>
           </div>
           <nav className="flex flex-col items-center space-y-8 p-8 flex-1">
-            <Link href="#features" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Features</Link>
-            <Link href="#how-it-works" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">How It Works</Link>
-            <Link href="#pricing" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Pricing</Link>
-            <Link href="#faq" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">FAQ</Link>
+            <Link href="/#features" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Features</Link>
+            <Link href="/#how-it-works" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">How It Works</Link>
+            <Link href="/#pricing" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Pricing</Link>
+            <Link href="/#faq" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">FAQ</Link>
             <a 
               href="https://chrome.google.com/webstore/category/extensions" 
               target="_blank" 
@@ -54,14 +55,15 @@ export default function Header() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="#" className="flex items-center space-x-2 group">
+              <img src="/icon/32x32.png" alt="xVault Logo" className="w-8 h-8" />
               <span className="text-2xl font-bold nav-link">xVault</span>
             </Link>
             
             <nav className="hidden md:flex items-center space-x-8">
-              <Link href="#features" className="nav-link font-medium hover:scale-105 transition-transform">Features</Link>
-              <Link href="#how-it-works" className="nav-link font-medium hover:scale-105 transition-transform">How It Works</Link>
-              <Link href="#pricing" className="nav-link font-medium hover:scale-105 transition-transform">Pricing</Link>
-              <Link href="#faq" className="nav-link font-medium hover:scale-105 transition-transform">FAQ</Link>
+              <Link href="/#features" className="nav-link font-medium hover:scale-105 transition-transform">Features</Link>
+              <Link href="/#how-it-works" className="nav-link font-medium hover:scale-105 transition-transform">How It Works</Link>
+              <Link href="/#pricing" className="nav-link font-medium hover:scale-105 transition-transform">Pricing</Link>
+              <Link href="/#faq" className="nav-link font-medium hover:scale-105 transition-transform">FAQ</Link>
             </nav>
             
             <div className="flex items-center space-x-4">

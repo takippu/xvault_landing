@@ -20,11 +20,12 @@ export default function PrivacyPolicy() {
         </p>
         <h3 className="text-xl font-bold mb-2">Personal Data</h3>
         <p className="mb-4">
-          When you register for an account, we collect your email address and authentication information. We do not have access to your password as we implement secure authentication methods.
+          {/* Currently, we do not collect any personal data. This section will be updated when account features are implemented. */}
+          We prioritize your privacy and currently operate without collecting any personal data.
         </p>
         <h3 className="text-xl font-bold mb-2">Snippet Data</h3>
         <p className="mb-4">
-          The text snippets you store in xVault are encrypted end-to-end. This means that only you can access the content of your snippets. We cannot access, read, or share your snippet content.
+          Your text snippets are stored exclusively on your local device and never transmitted to any cloud or internet services. The data remains completely under your control, with end-to-end encryption ensuring that only you can access your snippets.
         </p>
         <h3 className="text-xl font-bold mb-2">Usage Data</h3>
         <p className="mb-4">
@@ -35,41 +36,33 @@ export default function PrivacyPolicy() {
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Use of Your Information</h2>
         <p className="mb-4">
-          Having accurate information about you permits us to provide you with a smooth, efficient, and customized experience. Specifically, we may use information collected about you via the Service to:
+          As we currently operate without collecting personal data, our use of information is limited to:
         </p>
         <ul className="list-disc pl-6 mb-4">
-          <li>Create and manage your account</li>
-          <li>Provide technical support and respond to your inquiries</li>
-          <li>Deliver the services you request</li>
-          <li>Improve the functionality and user experience of our Service</li>
-          <li>Monitor and analyze usage and trends to improve your experience with the Service</li>
-          <li>Notify you of updates to the Service</li>
-          <li>Prevent fraudulent transactions and monitor against theft</li>
+          <li>Providing the core snippet management functionality</li>
+          <li>Ensuring the security and proper operation of the extension</li>
+          <li>Improving the functionality and user experience of our Service</li>
         </ul>
       </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Disclosure of Your Information</h2>
         <p className="mb-4">
-          We may share information we have collected about you in certain situations. Your information may be disclosed as follows:
+          As we operate with a local-first approach and do not collect personal data, we do not share or disclose your information with any third parties. Your snippets remain securely stored on your device with end-to-end encryption.
         </p>
-        <h3 className="text-xl font-bold mb-2">By Law or to Protect Rights</h3>
+        <h3 className="text-xl font-bold mb-2">Legal Requirements</h3>
         <p className="mb-4">
-          If we believe the release of information about you is necessary to respond to legal process, to investigate or remedy potential violations of our policies, or to protect the rights, property, and safety of others, we may share your information as permitted or required by any applicable law, rule, or regulation.
-        </p>
-        <h3 className="text-xl font-bold mb-2">Third-Party Service Providers</h3>
-        <p className="mb-4">
-          We may share your information with third parties that perform services for us or on our behalf, including payment processing, data analysis, email delivery, hosting services, customer service, and marketing assistance.
+          In the extremely rare case where we are required by law to disclose any information, we will notify you unless prohibited by law. However, as we do not collect personal data or have access to your snippets, such situations are highly unlikely.
         </p>
       </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Security of Your Information</h2>
         <p className="mb-4">
-          We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.
+          Your privacy and security are our top priorities. Since all your snippet data is stored locally on your device and never transmitted online, you maintain complete control over your data at all times.
         </p>
         <p className="mb-4">
-          Your snippet data is encrypted end-to-end, meaning it is encrypted before it leaves your device and can only be decrypted with your encryption key, which is derived from your password and never leaves your device.
+          Your snippet data is protected by end-to-end encryption on your local device, ensuring that only you can access your stored information. No one else, including our team, has access to your snippets.
         </p>
       </section>
 
@@ -90,15 +83,15 @@ export default function PrivacyPolicy() {
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
         <p className="mb-4">
-          If you have questions or comments about this Privacy Policy, please contact us at:
+          If you have questions or comments about this Privacy Policy, please contact us through LinkedIn:
         </p>
         <p className="mb-4">
-          Email: privacy@xvault.app
+          <a href="https://www.linkedin.com/in/thaqifrosdi" className="text-blue-600 hover:text-blue-800">https://www.linkedin.com/in/thaqifrosdi</a>
         </p>
       </section>
 
       <p className="text-sm text-secondaryText mt-12">
-        Last updated: January 1, 2023
+        Last updated: April 14, 2025
       </p>
     </PageTemplate>
   );
