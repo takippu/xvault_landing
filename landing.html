@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="xVault - The ultimate text snippet manager for Chrome that securely stores your frequently used text with end-to-end encryption.">
+    <meta name="keywords" content="text snippet manager, chrome extension, secure snippets, code snippets, encryption">
+    <meta name="author" content="xVault">
+    <meta name="theme-color" content="#ff6380">
+    <title>xVault - Manage, Copy and Paste Your Snippets Easily</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./public/icon/xvault.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="./public/icon/16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./public/icon/32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="./public/icon/48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./public/icon/96x96.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="./public/icon/128x128.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: 'var(--color-base)',
+                        secondaryBase: 'var(--color-secondary-base)',
+                        primaryBtn: 'var(--color-primary-btn)',
+                        secondaryBtn: 'var(--color-secondary-btn)',
+                        primaryText: 'var(--color-primary-text)',
+                        secondaryText: 'var(--color-secondary-text)',
+                        hoverText: 'var(--color-hovers-text)',
+                        border: 'var(--color-border)',
+                        hover: 'var(--color-hover)',
+                        neonText: 'var(--color-neon-text)',
+                        neonGlow: 'var(--color-neon-glow)',
+                        folders: 'var(--color-folders)',
+                        foldersHover: 'var(--color-folders-hover)',
+                        switch: 'var(--color-switch)',
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'neon': 'neon 1.5s ease-in-out infinite alternate',
+                        'pulse-slow': 'pulse 5s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --color-base: #ffffff;
+            --color-secondary-base: #ffffff;
+            --color-primary-btn: #ff6380;
+            --color-secondary-btn: #ffafcc;
+            --color-primary-text: #000000;
+            --color-secondary-text: #ff8b17;
+            --color-hovers-text: #f40480;
+            --color-border: #94969b39;
+            --color-hover: #f40480;
+            --color-neon-text: #ff70a6;
+            --color-neon-glow: #fbfbfb;
+            --color-folders: #ff679e;
+            --color-folders-hover: #ffafcc;
+            --color-switch: #f40480;
+        }
+
+        :root.dark {
+            --color-base: #343434;
+            --color-secondary-base: rgba(95, 89, 128, 0.444);
+            --color-primary-btn: #305e93;
+            --color-secondary-btn: #404d64;
+            --color-primary-text: #e2e8f0;
+            --color-secondary-text: #aa9bff;
+            --color-hovers-text: #8e6ff3;
+            --color-border: #6a6a6a39;
+            --color-hover: #0564e1;
+            --color-neon-text: #d6d6d6;
+            --color-neon-glow: #cd17ff;
+            --color-folders: #305e93;
+            --color-folders-hover: #404d64;
+            --color-switch: #0564e1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes neon {
+            from {
+                text-shadow: 0 0 5px var(--color-neon-glow), 0 0 10px var(--color-neon-glow), 0 0 15px var(--color-neon-glow);
+            }
+            to {
+                text-shadow: 0 0 10px var(--color-neon-glow), 0 0 20px var(--color-neon-glow), 0 0 30px var(--color-neon-glow);
+            }
+        }
+
+        .neon-text {
+            color: var(--color-neon-text);
+            animation: neon 1.5s ease-in-out infinite alternate;
+        }
+
+        .folder-icon {
+            color: var(--color-folders);
+            transition: all 0.3s ease;
+        }
+
+        .folder-icon:hover {
+            color: var(--color-folders-hover);
+            transform: scale(1.1);
+        }
+
+        .theme-toggle {
+            background: var(--color-switch);
+        }
+
+        .btn-primary {
+            background: var(--color-primary-btn);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px var(--color-primary-btn);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary-btn);
+            color: var(--color-primary-text);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-folders-hover);
+            transform: translateY(-2px);
+        }
+
+        .feature-card {
+            background: var(--color-secondary-base);
+            border: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            color: var(--color-primary-text);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--color-hovers-text);
+        }
+
+        body {
+            background-color: var(--color-base);
+            color: var(--color-primary-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+            /* Theme toggle animations */
+        .dark .sun-icon {
+            transform: translateX(-10px) rotate(90deg);
+            opacity: 0;
+        }
+        
+        .sun-icon {
+            transform: translateX(0) rotate(0);
+            opacity: 1;
+        }
+        
+        .moon-icon {
+            transform: translateX(10px) rotate(90deg);
+            opacity: 0;
+        }
+        
+        .dark .moon-icon {
+            transform: translateX(0) rotate(0);
+            opacity: 1;
+        }
+        
+        /* Adjust toggle ball position */
+        .dark #theme-toggle-ball {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="bg-base bg-opacity-95 backdrop-blur-sm flex-1 flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b border-border">
+                <div class="flex items-center space-x-2">
+                    <!-- <i class="fas fa-lock text-2xl neon-text"></i> -->
+                    <span class="text-2xl font-bold bg-gradient-to-r from-primaryBtn to-hover bg-clip-text text-transparent">xVault</span>
+                </div>
+                <button id="close-menu" class="focus:outline-none hover:text-hoverText transition-colors" aria-label="Close menu">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col items-center space-y-8 p-8 flex-1">
+                <a href="#features" class="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Features</a>
+                <a href="#how-it-works" class="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">How It Works</a>
+                <a href="#pricing" class="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Pricing</a>
+                <a href="#faq" class="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">FAQ</a>
+                <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary px-8 py-3 rounded-full font-semibold mt-6 w-full max-w-xs flex items-center justify-center">
+                    <i class="fab fa-chrome mr-2"></i> Add to Chrome
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-base bg-opacity-90 backdrop-blur-sm border-b border-border">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="flex items-center space-x-2 group">
+                    <!-- <i class="fas fa-lock text-2xl neon-text group-hover:animate-pulse-slow transition-all duration-300"></i> -->
+                    <span class="text-2xl font-bold bg-gradient-to-r from-primaryBtn to-hover bg-clip-text text-transparent">xVault</span>
+                </a>
+                
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="nav-link font-medium hover:scale-105 transition-transform">Features</a>
+                    <a href="#how-it-works" class="nav-link font-medium hover:scale-105 transition-transform">How It Works</a>
+                    <a href="#pricing" class="nav-link font-medium hover:scale-105 transition-transform">Pricing</a>
+                    <a href="#faq" class="nav-link font-medium hover:scale-105 transition-transform">FAQ</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="theme-toggle w-12 h-6 rounded-full flex items-center transition duration-300 focus:outline-none shadow relative px-1" aria-label="Toggle dark mode">
+                        <div id="theme-toggle-ball" class="w-4 h-4 rounded-full shadow flex items-center justify-center transition-all duration-500 transform translate-x-0 z-10">
+                            <i id="sun-icon" class="fas fa-sun text-yellow-200 text-xs block dark:hidden"></i>
+                            <i id="moon-icon" class="fas fa-moon text-blue-200 text-xs hidden dark:block"></i>
+                        </div>
+                    </button>
+                    <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary px-6 py-2 rounded-full font-semibold hidden md:block">Add to Chrome</a>
+                    <button id="open-menu" class="md:hidden focus:outline-none hover:text-hoverText transition-colors" aria-label="Open menu">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 overflow-hidden">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0">
+                <div class="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-primaryBtn text-white font-medium text-sm">📋 Secure Snippet Manager</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    Organize Your <span class="neon-text">Text Snippets</span> with xVault
+                </h1>
+                <p class="text-lg md:text-xl text-secondaryText mb-8 max-w-xl">
+                    The ultimate text snippet manager for Chrome that securely stores your frequently used text in customizable folders with end-to-end encryption.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary px-8 py-3 rounded-full font-semibold text-lg flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                        <i class="fab fa-chrome mr-2"></i> Add to Chrome - It's Free
+                    </a>
+                    <a href="#features" class="btn-secondary px-8 py-3 rounded-full font-semibold text-lg flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i> Learn More
+                    </a>
+                </div>
+                <div class="mt-8 flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <div class="flex items-center space-x-2">
+                        <div class="flex -space-x-2">
+                            <img src="https://randomuser.me/api/portraits/women/12.jpg" class="w-10 h-10 rounded-full border-2 border-base" alt="User">
+                            <img src="https://randomuser.me/api/portraits/men/43.jpg" class="w-10 h-10 rounded-full border-2 border-base" alt="User">
+                            <img src="https://randomuser.me/api/portraits/women/34.jpg" class="w-10 h-10 rounded-full border-2 border-base" alt="User">
+                        </div>
+                        <div>
+                            <p class="text-sm">Trusted by <span class="font-bold">10,000+</span> users</p>
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <span class="ml-2 text-sm">4.9/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-secondaryBase px-4 py-2 rounded-lg border border-border">
+                        <i class="fas fa-shield-alt text-primaryBtn"></i>
+                        <span class="text-sm font-medium">End-to-End Encryption</span>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-primaryBtn rounded-full filter blur-3xl opacity-10 animate-pulse-slow"></div>
+                <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-hover rounded-full filter blur-3xl opacity-10 animate-pulse-slow"></div>
+                <div class="relative w-full max-w-md mx-auto transform hover:scale-105 transition-transform duration-700 ease-in-out">
+                    <div class="absolute -top-10 -left-10 w-32 h-32 bg-primaryBtn rounded-full filter blur-3xl opacity-20"></div>
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-hover rounded-full filter blur-3xl opacity-20"></div>
+                    <div class="relative bg-secondaryBase p-6 rounded-2xl shadow-xl border border-border">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-2">
+                                <!-- <i class="fas fa-lock folder-icon text-xl"></i> -->
+                                <span class="font-semibold">xVault</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-ellipsis-h text-secondaryText"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-secondaryText">Saved Logins</span>
+                                <i class="fas fa-search text-secondaryText"></i>
+                            </div>
+                            <div class="bg-base p-3 rounded-lg border border-border mb-2 flex items-center hover:shadow-md transition-shadow duration-300">
+                                <i class="fas fa-code text-red-500 mr-3"></i>
+                                <div class="flex-1">
+                                    <p class="font-medium">React Component</p>
+                                    <p class="text-xs text-secondaryText">const Button = ({children}) => ...</p>
+                                </div>
+                                <i class="fas fa-copy text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
+                            </div>
+                            <div class="bg-base p-3 rounded-lg border border-border mb-2 flex items-center hover:shadow-md transition-shadow duration-300">
+                                <i class="fas fa-envelope text-gray-800 dark:text-white mr-3"></i>
+                                <div class="flex-1">
+                                    <p class="font-medium">Email Template</p>
+                                    <p class="text-xs text-secondaryText">Dear [Name], Thank you for...</p>
+                                </div>
+                                <i class="fas fa-copy text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
+                            </div>
+                            <div class="bg-base p-3 rounded-lg border border-border mb-2 flex items-center hover:shadow-md transition-shadow duration-300">
+                                <i class="fas fa-terminal text-blue-600 mr-3"></i>
+                                <div class="flex-1">
+                                    <p class="font-medium">Terminal Command</p>
+                                    <p class="text-xs text-secondaryText">git checkout -b feature/...</p>
+                                </div>
+                                <i class="fas fa-copy text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <button class="btn-primary px-4 py-2 rounded-lg text-sm flex items-center hover:scale-105 transition-transform duration-300">
+                                <i class="fas fa-plus mr-2"></i> Add New
+                            </button>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-cog text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
+                                <i class="fas fa-user-circle text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-secondaryBase">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-primaryBtn text-white font-medium text-sm">✨ Why Choose xVault</span>
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
+                <p class="text-lg text-secondaryText max-w-2xl mx-auto">
+                    xVault comes packed with everything you need to manage your text snippets efficiently
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-folder text-2xl text-primaryBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Folder Organization</h3>
+                    <p class="text-secondaryText">Keep your text snippets neatly organized in customizable folders for quick and easy access.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-hover bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-clipboard text-2xl text-hover"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Text Snippets</h3>
+                    <p class="text-secondaryText">Store and quickly access frequently used text snippets with one-click copying functionality.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-secondaryText bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-lock text-2xl text-secondaryText"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Secure Encryption</h3>
+                    <p class="text-secondaryText">Your sensitive data is protected with strong encryption and a master password only you know.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-moon text-2xl text-primaryBtn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Dark Mode</h3>
+                    <p class="text-secondaryText">Switch between light and dark themes to reduce eye strain and match your browsing preferences.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-hover bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-file-export text-2xl text-hover"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Import/Export</h3>
+                    <p class="text-secondaryText">Easily backup your data or migrate from other password managers with our import/export tools.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-secondaryText bg-opacity-10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-user-shield text-2xl text-secondaryText"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Privacy First</h3>
+                    <p class="text-secondaryText">Your data stays on your device - we don't collect or store your passwords on our servers.</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                    <i class="fab fa-chrome mr-2"></i> Get xVault Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 relative overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primaryBtn rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-hover rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-primaryBtn text-white font-medium text-sm">🚀 Get Started Easily</span>
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How xVault Works</h2>
+                <p class="text-lg text-secondaryText max-w-2xl mx-auto">
+                    Simple 3-step process to secure your digital life
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/3 mb-8 md:mb-0 md:px-4">
+                    <div class="bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300 h-full">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-primaryBtn rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">1</div>
+                            <h3 class="text-xl font-bold">Install</h3>
+                        </div>
+                        <p class="text-secondaryText mb-6">Add xVault to your Chrome browser with one click from the Chrome Web Store.</p>
+                        <div class="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <img src="https://via.placeholder.com/500x300" alt="Install Extension" class="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/3 mb-8 md:mb-0 md:px-4">
+                    <div class="bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300 h-full">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-hover rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">2</div>
+                            <h3 class="text-xl font-bold">Add Snippets</h3>
+                        </div>
+                        <p class="text-secondaryText mb-6">Create and organize your text snippets in customizable folders for quick access.</p>
+                        <div class="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <img src="https://via.placeholder.com/500x300" alt="Add Snippets" class="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/3 md:px-4">
+                    <div class="bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300 h-full">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-secondaryText rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">3</div>
+                            <h3 class="text-xl font-bold">Copy in 1 Click</h3>
+                        </div>
+                        <p class="text-secondaryText mb-6">Access and copy your snippets instantly whenever you need them with just one click.</p>
+                        <div class="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <img src="https://via.placeholder.com/500x300" alt="Copy in 1 Click" class="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                    <i class="fab fa-chrome mr-2"></i> Start Managing Your Snippets
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-secondaryBase relative overflow-hidden">
+        <div class="absolute -top-40 -left-40 w-80 h-80 bg-primaryBtn rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-hover rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-primaryBtn text-white font-medium text-sm">💎 Flexible Options</span>
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+                <p class="text-lg text-secondaryText max-w-2xl mx-auto">
+                    Choose the plan that works for you
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-primaryBtn bg-opacity-5 rounded-full"></div>
+                    <h3 class="text-xl font-bold mb-2 relative z-10">Free</h3>
+                    <p class="text-secondaryText mb-4 relative z-10">Essential password management</p>
+                    <div class="text-3xl font-bold mb-6 relative z-10">$0 <span class="text-sm font-normal text-secondaryText">forever</span></div>
+                    <ul class="space-y-3 mb-8 relative z-10">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Unlimited text snippets</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Folder organization</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Dark/Light theme</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Local storage encryption</span>
+                        </li>
+                        <li class="flex items-center opacity-50">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Premium support</span>
+                        </li>
+                    </ul>
+                    <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-3 rounded-lg font-semibold inline-block text-center relative z-10 hover:shadow-lg transition-shadow duration-300">Get Started</a>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden border-2 border-primaryBtn">
+                    <div class="absolute -top-4 -right-4 w-32 h-32 bg-primaryBtn bg-opacity-10 rounded-full"></div>
+                    <div class="absolute top-0 right-0 bg-primaryBtn text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
+                    <h3 class="text-xl font-bold mb-2 relative z-10">Premium</h3>
+                    <p class="text-secondaryText mb-4 relative z-10">Advanced features for power users</p>
+                    <div class="text-3xl font-bold mb-6 relative z-10">$2.99 <span class="text-sm font-normal text-secondaryText">/month</span></div>
+                    <ul class="space-y-3 mb-8 relative z-10">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Everything in Free</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Unlimited folders</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Advanced import/export</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Enhanced security</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Priority support</span>
+                        </li>
+                    </ul>
+                    <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-3 rounded-lg font-semibold inline-block text-center relative z-10 hover:shadow-lg transition-shadow duration-300">Try Free for 14 Days</a>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-hover bg-opacity-10 rounded-full"></div>
+                    <h3 class="text-xl font-bold mb-2 relative z-10">Pro</h3>
+                    <p class="text-secondaryText mb-4 relative z-10">For professionals and small teams</p>
+                    <div class="text-3xl font-bold mb-6 relative z-10">$4.99 <span class="text-sm font-normal text-secondaryText">/month</span></div>
+                    <ul class="space-y-3 mb-8 relative z-10">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Everything in Premium</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Advanced snippet features</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Custom categories</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Dedicated support</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-primaryBtn mr-2"></i>
+                            <span>Early access to new features</span>
+                        </li>
+                    </ul>
+                    <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-3 rounded-lg font-semibold inline-block text-center relative z-10 hover:shadow-lg transition-shadow duration-300">Try Free for 14 Days</a>
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="mb-6 md:mb-0 md:mr-8">
+                        <h3 class="text-xl font-bold mb-2">Need a custom solution?</h3>
+                        <p class="text-secondaryText">Contact us for specialized features and support</p>
+                    </div>
+                    <a href="#" class="btn-secondary w-full md:w-auto px-8 py-3 rounded-lg font-semibold inline-block text-center hover:shadow-md transition-shadow duration-300">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primaryBtn rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-hover rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-primaryBtn text-white font-medium text-sm">❤️ Trusted by Thousands</span>
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
+                <p class="text-lg text-secondaryText max-w-2xl mx-auto">
+                    Don't just take our word for it
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="flex items-center mb-6">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-16 h-16 rounded-full mr-4 border-2 border-primaryBtn" alt="User">
+                        <div>
+                            <h4 class="font-bold text-lg">Sarah Johnson</h4>
+                            <p class="text-sm text-secondaryText">Web Developer</p>
+                            <div class="flex mt-1">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondaryText mb-4 italic">"I love how xVault lets me organize my passwords in folders. The folder system makes it so easy to find what I need quickly without scrolling through a huge list."</p>
+                    <div class="flex justify-end">
+                        <i class="fas fa-quote-right text-primaryBtn text-opacity-20 text-4xl"></i>
+                    </div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="flex items-center mb-6">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-16 h-16 rounded-full mr-4 border-2 border-primaryBtn" alt="User">
+                        <div>
+                            <h4 class="font-bold text-lg">Michael Chen</h4>
+                            <p class="text-sm text-secondaryText">IT Manager</p>
+                            <div class="flex mt-1">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondaryText mb-4 italic">"The text snippet feature is a game-changer for me. I store code snippets, email templates, and addresses that I can copy with just one click. Saves me so much time!"</p>
+                    <div class="flex justify-end">
+                        <i class="fas fa-quote-right text-primaryBtn text-opacity-20 text-4xl"></i>
+                    </div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="flex items-center mb-6">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-16 h-16 rounded-full mr-4 border-2 border-primaryBtn" alt="User">
+                        <div>
+                            <h4 class="font-bold text-lg">Emily Rodriguez</h4>
+                            <p class="text-sm text-secondaryText">UX Designer</p>
+                            <div class="flex mt-1">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondaryText mb-4 italic">"I appreciate the dark mode option - it's easier on my eyes when I'm working late. The clean interface makes finding and managing my passwords so intuitive."</p>
+                    <div class="flex justify-end">
+                        <i class="fas fa-quote-right text-primaryBtn text-opacity-20 text-4xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="btn-secondary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                    <i class="fas fa-users mr-2"></i> Join Our Community
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-secondaryBase relative overflow-hidden">
+        <div class="absolute -top-40 -left-40 w-80 h-80 bg-primaryBtn rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="absolute -bottom-40 -right-40 w-80 h-80 bg-hover rounded-full filter blur-3xl opacity-5 animate-pulse-slow"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
+                    <span class="text-primaryBtn text-white font-medium text-sm">🤔 Got Questions?</span>
+                </span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p class="text-lg text-secondaryText max-w-2xl mx-auto">
+                    Find answers to common questions about xVault
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="mb-6 group">
+                    <button class="faq-question w-full text-left p-5 bg-base rounded-xl border border-border flex items-center justify-between focus:outline-none hover:shadow-md transition-all duration-300" role="button" aria-expanded="false">
+                        <span class="font-medium text-lg flex items-center"><i class="fas fa-question-circle text-primaryBtn mr-3"></i> Is xVault really free?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300 text-primaryBtn group-hover:scale-110" aria-hidden="true"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 text-secondaryText bg-base bg-opacity-50 rounded-b-xl border-l border-r border-b border-border" role="region">
+                        Yes! xVault is completely free to use with all essential features. You can store unlimited text snippets organized in folders without any cost. There are no hidden fees or premium tiers.
+                    </div>
+                </div>
+                
+                <div class="mb-6 group">
+                    <button class="faq-question w-full text-left p-5 bg-base rounded-xl border border-border flex items-center justify-between focus:outline-none hover:shadow-md transition-all duration-300" role="button" aria-expanded="false">
+                        <span class="font-medium text-lg flex items-center"><i class="fas fa-shield-alt text-primaryBtn mr-3"></i> How secure is xVault?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300 text-primaryBtn group-hover:scale-110" aria-hidden="true"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 text-secondaryText bg-base bg-opacity-50 rounded-b-xl border-l border-r border-b border-border" role="region">
+                        xVault uses strong encryption with PBKDF2 key derivation to protect your data. Your master password is never stored anywhere, and all encryption/decryption happens locally on your device. Your data remains secure and private at all times.
+                    </div>
+                </div>
+                
+                <div class="mb-6 group">
+                    <button class="faq-question w-full text-left p-5 bg-base rounded-xl border border-border flex items-center justify-between focus:outline-none hover:shadow-md transition-all duration-300" role="button" aria-expanded="false">
+                        <span class="font-medium text-lg flex items-center"><i class="fas fa-clipboard text-primaryBtn mr-3"></i> What are text snippets and how do they work?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300 text-primaryBtn group-hover:scale-110" aria-hidden="true"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 text-secondaryText bg-base bg-opacity-50 rounded-b-xl border-l border-r border-b border-border" role="region">
+                        Text snippets are frequently used pieces of text (like addresses, boilerplate responses, or code) that you can store and quickly copy with one click. They're organized in folders alongside your passwords for easy access and can be edited or deleted as needed.
+                    </div>
+                </div>
+                
+                <div class="mb-6 group">
+                    <button class="faq-question w-full text-left p-5 bg-base rounded-xl border border-border flex items-center justify-between focus:outline-none hover:shadow-md transition-all duration-300" role="button" aria-expanded="false">
+                        <span class="font-medium text-lg flex items-center"><i class="fas fa-key text-primaryBtn mr-3"></i> What happens if I forget my master password?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300 text-primaryBtn group-hover:scale-110" aria-hidden="true"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 text-secondaryText bg-base bg-opacity-50 rounded-b-xl border-l border-r border-b border-border" role="region">
+                        For security reasons, we cannot recover your master password. We recommend storing a hint in a secure location or using the "Remember me" option if you're on a trusted device. This option will keep you logged in until you close your browser.
+                    </div>
+                </div>
+                
+                <div class="mb-6 group">
+                    <button class="faq-question w-full text-left p-5 bg-base rounded-xl border border-border flex items-center justify-between focus:outline-none hover:shadow-md transition-all duration-300" role="button" aria-expanded="false">
+                        <span class="font-medium text-lg flex items-center"><i class="fas fa-wifi-slash text-primaryBtn mr-3"></i> Does xVault work offline?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300 text-primaryBtn group-hover:scale-110" aria-hidden="true"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 text-secondaryText bg-base bg-opacity-50 rounded-b-xl border-l border-r border-b border-border" role="region">
+                        Yes! xVault stores an encrypted copy of your passwords locally in your browser. You can access your passwords even without an internet connection. Any changes made offline will sync automatically when you reconnect.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primaryBtn to-hover">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Secure Your Digital Life?</h2>
+            <p class="text-xl text-white mb-8 max-w-2xl mx-auto">
+                Join thousands of users who trust xVault with their most sensitive information
+            </p>
+            <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-primaryBtn px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                <i class="fab fa-chrome mr-2"></i> Add to Chrome - It's Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-base border-t border-border">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <!-- <i class="fas fa-lock text-2xl neon-text"></i> -->
+                        <span class="text-2xl font-bold bg-gradient-to-r from-primaryBtn to-hover bg-clip-text text-transparent">xVault</span>
+                    </div>
+                    <p class="text-secondaryText max-w-xs">
+                        The most secure and convenient password manager for Chrome.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-secondaryText hover:text-hoverText text-xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-secondaryText hover:text-hoverText text-xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-secondaryText hover:text-hoverText text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-secondaryText hover:text-hoverText text-xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Product</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Features</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Pricing</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Extensions</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Roadmap</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">About</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Blog</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Careers</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Support</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Help Center</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Community</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Security</a></li>
+                            <li><a href="#" class="text-secondaryText hover:text-hoverText">Status</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-secondaryText mb-4 md:mb-0">© 2023 xVault. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-secondaryText hover:text-hoverText">Privacy Policy</a>
+                    <a href="#" class="text-secondaryText hover:text-hoverText">Terms of Service</a>
+                    <a href="#" class="text-secondaryText hover:text-hoverText">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleBall = document.getElementById('theme-toggle-ball');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const html = document.documentElement;
+
+        // Function to update icon visibility
+        function updateIconVisibility() {
+            if (html.classList.contains('dark')) {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        }
+
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+        // Apply the saved theme
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+            themeToggleBall.classList.add('translate-x-6');
+        } else {
+            html.classList.remove('dark');
+            themeToggleBall.classList.add('translate-x-0'); // Ensure initial position
+        }
+        updateIconVisibility(); // Set initial icon state
+
+        themeToggle.addEventListener('click', () => {
+            // Toggle dark class on html element
+            html.classList.toggle('dark');
+            
+            // Handle toggle ball animation
+            if (html.classList.contains('dark')) {
+                themeToggleBall.classList.remove('translate-x-0');
+                themeToggleBall.classList.add('translate-x-6');
+            } else {
+                themeToggleBall.classList.remove('translate-x-6');
+                themeToggleBall.classList.add('translate-x-0');
+            }
+            
+            // Update icon visibility
+            updateIconVisibility();
+            
+            // Save the current theme to localStorage
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+        });
+            
+        // FAQ accordion functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            // Add ARIA attributes for accessibility
+            question.setAttribute('aria-expanded', 'false');
+            const answer = question.nextElementSibling;
+            const answerId = `faq-answer-${Math.random().toString(36).substring(2, 9)}`;
+            answer.id = answerId;
+            question.setAttribute('aria-controls', answerId);
+            
+            question.addEventListener('click', () => {
+                const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                const icon = question.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Update ARIA attributes
+                question.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+                
+                // Rotate chevron icon
+                icon.classList.toggle('rotate-180');
+                
+                // Close other open FAQs
+                faqQuestions.forEach(q => {
+                    if (q !== question) {
+                        q.nextElementSibling.classList.add('hidden');
+                        q.querySelector('i').classList.remove('rotate-180');
+                        q.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,8 +1,47 @@
 @import "tailwindcss";
 
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
+  --color-base: #ffffff;
+  --color-secondary-base: #ffffff;
+  --color-primary-btn: #ff6380;
+  --color-secondary-btn: #ffafcc;
+  --color-primary-text: #000000;
+  --color-secondary-text: #ff8b17;
+  --color-hovers-text: #f40480;
+  --color-border: #94969b39;
+  --color-hover: #f40480;
+  --color-neon-text: #ff70a6;
+  --color-neon-glow: #fbfbfb;
+  --color-folders: #ff679e;
+  --color-folders-hover: #ffafcc;
+  --color-switch: #f40480;
   --background: #ffffff;
   --foreground: #171717;
+}
+
+:root.dark {
+  --color-base: #343434;
+  --color-secondary-base: rgba(95, 89, 128, 0.444);
+  --color-primary-btn: #305e93;
+  --color-secondary-btn: #404d64;
+  --color-primary-text: #e2e8f0;
+  --color-secondary-text: #aa9bff;
+  --color-hovers-text: #8e6ff3;
+  --color-border: #6a6a6a39;
+  --color-hover: #0564e1;
+  --color-neon-text: #d6d6d6;
+  --color-neon-glow: #cd17ff;
+  --color-folders: #305e93;
+  --color-folders-hover: #404d64;
+  --color-switch: #0564e1;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +51,114 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background-color: var(--color-base);
+  color: var(--color-primary-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes neon {
+  from {
+    text-shadow: 0 0 5px var(--color-neon-glow), 0 0 10px var(--color-neon-glow), 0 0 15px var(--color-neon-glow);
+  }
+  to {
+    text-shadow: 0 0 10px var(--color-neon-glow), 0 0 20px var(--color-neon-glow), 0 0 30px var(--color-neon-glow);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.neon-text {
+  color: var(--color-neon-text);
+  animation: neon 1.5s ease-in-out infinite alternate;
+}
+
+.folder-icon {
+  color: var(--color-folders);
+  transition: all 0.3s ease;
+}
+
+.folder-icon:hover {
+  color: var(--color-folders-hover);
+  transform: scale(1.1);
+}
+
+.theme-toggle {
+  background: var(--color-switch);
+}
+
+.btn-primary {
+  background: var(--color-primary-btn);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px var(--color-primary-btn);
+}
+
+.btn-secondary {
+  background: var(--color-secondary-btn);
+  color: var(--color-primary-text);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-folders-hover);
+  transform: translateY(-2px);
+}
+
+.feature-card {
+  background: var(--color-secondary-base);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  color: var(--color-primary-text);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-hovers-text);
+}
+
+/* Theme toggle animations */
+.sun-icon {
+  transform: translateX(0) rotate(0);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.dark .sun-icon {
+  transform: translateX(-10px) rotate(90deg);
+  opacity: 0;
+}
+
+.moon-icon {
+  transform: translateX(10px) rotate(90deg);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.dark .moon-icon {
+  transform: translateX(0) rotate(0);
+  opacity: 1;
+}
+
+/* Adjust toggle ball position */
+.dark #theme-toggle-ball {
+  transform: translateX(16px);
 }
