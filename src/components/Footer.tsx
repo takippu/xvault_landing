@@ -11,22 +11,13 @@ export default function Footer() {
               The ultimate text snippet manager for Chrome that securely stores your frequently used text.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-secondaryText hover:text-hoverText transition-colors">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-secondaryText hover:text-hoverText transition-colors">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-secondaryText hover:text-hoverText transition-colors">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-secondaryText hover:text-hoverText transition-colors">
-                <i className="fab fa-github"></i>
+              <a href="https://linkedin.com/in/thaqifrosdi" className="text-secondaryText hover:text-hoverText transition-colors">
+                <i className="fab fa-linkedin"></i>
               </a>
             </div>
           </div>
           
-          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="md:col-span-1">
             <div>
               <h3 className="text-lg font-bold mb-4">Product</h3>
               <ul className="space-y-2">
@@ -35,6 +26,12 @@ export default function Footer() {
                 <li><Link href="#faq" className="text-secondaryText hover:text-hoverText transition-colors">FAQ</Link></li>
                 <li><a href="#" className="text-secondaryText hover:text-hoverText transition-colors">Changelog</a></li>
               </ul>
+            </div>
+          </div>
+          <div className="md:col-span-1 flex items-center justify-end">
+            <div className="flex items-center space-x-2">
+              <img src="/icon/xVault.png" alt="xVault Logo" className="w-8 h-8" />
+              <span className="text-xl font-bold">xVault</span>
             </div>
             
             {/* <div>
@@ -47,15 +44,15 @@ export default function Footer() {
               </ul>
             </div> */}
             
-            <div>
+            {/* <div>
               <h3 className="text-lg font-bold mb-4">xVault</h3>
               <ul className="space-y-2">
                 <li><Link href="/about" className="text-secondaryText hover:text-hoverText transition-colors">About</Link></li>
-                {/* <li><Link href="/careers" className="text-secondaryText hover:text-hoverText transition-colors">Careers</Link></li> */}
-                {/* <li><Link href="/contact" className="text-secondaryText hover:text-hoverText transition-colors">Contact</Link></li> */}
-                {/* <li><Link href="/partners" className="text-secondaryText hover:text-hoverText transition-colors">Partners</Link></li> */}
+                <li><Link href="/careers" className="text-secondaryText hover:text-hoverText transition-colors">Careers</Link></li>
+                <li><Link href="/contact" className="text-secondaryText hover:text-hoverText transition-colors">Contact</Link></li>
+                <li><Link href="/partners" className="text-secondaryText hover:text-hoverText transition-colors">Partners</Link></li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
         
