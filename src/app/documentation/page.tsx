@@ -99,9 +99,9 @@ export default function Documentation() {
               xVault supports dynamic template variables that are replaced when you paste a snippet:
             </p>
             <div className="bg-secondaryBase p-4 rounded-lg border border-border space-y-2">
-              <p><code>{{date}}</code>: Current date (format: YYYY-MM-DD)</p>
-              <p><code>{{time}}</code>: Current time (format: HH:MM)</p>
-              <p><code>{{clipboard}}</code>: Contents of your clipboard</p>
+              <p><code>{'{{date}}'}</code>: Current date (format: YYYY-MM-DD)</p>
+              <p><code>{'{{time}}'}</code>: Current time (format: HH:MM)</p>
+              <p><code>{'{{clipboard}}'}</code>: Contents of your clipboard</p>
             </div>
           </div>
           

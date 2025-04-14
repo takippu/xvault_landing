@@ -62,54 +62,73 @@ export default function HeroSection() {
           <div className="relative w-full max-w-md mx-auto transform hover:scale-105 transition-transform duration-700 ease-in-out">
             <div className="absolute -top-10 -left-10 w-32 h-32 bg-primaryBtn rounded-full filter blur-3xl opacity-20"></div>
             <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-hover rounded-full filter blur-3xl opacity-20"></div>
-            <div className="relative bg-secondaryBase p-6 rounded-2xl shadow-xl border border-border">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-2">
-                  <span className="font-semibold">xVault</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <i className="fas fa-ellipsis-h text-secondaryText"></i>
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-secondaryText">Saved Logins</span>
-                  <i className="fas fa-search text-secondaryText"></i>
-                </div>
-                <div className="bg-base p-3 rounded-lg border border-border mb-2 flex items-center hover:shadow-md transition-shadow duration-300">
-                  <i className="fas fa-code text-red-500 mr-3"></i>
-                  <div className="flex-1">
-                    <p className="font-medium">React Component</p>
-                    <p className="text-xs text-secondaryText">const Button = (&#123;children&#125;) => ...</p>
-                  </div>
-                  <i className="fas fa-copy text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
-                </div>
-                <div className="bg-base p-3 rounded-lg border border-border mb-2 flex items-center hover:shadow-md transition-shadow duration-300">
-                  <i className="fas fa-envelope text-gray-800 dark:text-white mr-3"></i>
-                  <div className="flex-1">
-                    <p className="font-medium">Email Template</p>
-                    <p className="text-xs text-secondaryText">Dear [Name], Thank you for...</p>
-                  </div>
-                  <i className="fas fa-copy text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
-                </div>
-                <div className="bg-base p-3 rounded-lg border border-border mb-2 flex items-center hover:shadow-md transition-shadow duration-300">
-                  <i className="fas fa-terminal text-blue-600 mr-3"></i>
-                  <div className="flex-1">
-                    <p className="font-medium">Terminal Command</p>
-                    <p className="text-xs text-secondaryText">git checkout -b feature/...</p>
-                  </div>
-                  <i className="fas fa-copy text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <button className="btn-primary px-4 py-2 rounded-lg text-sm flex items-center hover:scale-105 transition-transform duration-300">
-                  <i className="fas fa-plus mr-2"></i> Add New
-                </button>
+            <div className="relative bg-secondaryBase rounded-2xl shadow-xl border border-border overflow-hidden">
+              {/* App Header */}
+              <div className="flex items-center justify-between p-4 border-b border-border">
+                <span className="font-semibold">xVault</span>
                 <div className="flex items-center space-x-3">
-                  <i className="fas fa-cog text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
-                  <i className="fas fa-user-circle text-secondaryText hover:text-primaryBtn cursor-pointer transition-colors"></i>
+                  <i className="fas fa-moon text-secondaryText hover:text-primaryBtn cursor-pointer"></i>
+                  <i className="fas fa-circle-info text-secondaryText hover:text-primaryBtn cursor-pointer"></i>
+                  <i className="fas fa-gear text-secondaryText hover:text-primaryBtn cursor-pointer"></i>
+                  <i className="fas fa-lock text-secondaryText hover:text-primaryBtn cursor-pointer"></i>
+                </div>
+              </div>
+              
+              {/* App Content */}
+              <div className="flex h-[400px]">
+                {/* Sidebar */}
+                <div className="w-1/3 border-r border-border p-4 relative feature-card">
+                  <h3 className="font-medium mb-2 flex items-center justify-between">
+                    Folders
+                    <i className="fas fa-chevron-left text-xs text-secondaryText"></i>
+                  </h3>
+                  
+                  {/* Folder Item */}
+                  <div className=" text-white rounded-md p-2 mb-2 flex items-center justify-between">
+                    <span>APIs</span>
+                    <span className="text-xs">(1)</span>
+                  </div>
+                  
+                  {/* Folder list content would go here */}
+                  
+                  {/* Add Folder Button - positioned at bottom */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <button className="w-full text-sm btn-primary p-2 rounded-md flex items-center justify-center">
+                      <i className="fas fa-plus mr-2"></i> Add Folder
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Main Content */}
+                <div className="w-2/3 p-4 relative">
+                  {/* Search Bar */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="relative flex-1 mr-2">
+                      <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-secondaryText"></i>
+                      <input type="text" placeholder="Search snippets..." className="w-full pl-9 pr-3 py-2 bg-base border border-border rounded-md text-sm" />
+                    </div>
+                    <div className="flex items-center bg-green-500 text-white px-3 py-2 rounded-md">
+                      <span className="mr-1">Mode:</span>
+                      <i className="fas fa-clipboard"></i>
+                    </div>
+                  </div>
+                  
+                  <h3 className="font-medium mb-3">Snippets</h3>
+                  
+                  {/* Snippet Item */}
+                  <div className="bg-base border border-border rounded-md p-3 mb-3 flex items-center justify-between">
+                    <span>Gemini AI (Tier 1)</span>
+                    <i className="fas fa-clipboard text-green-500"></i>
+                  </div>
+                  
+                  {/* Snippet list content would go here */}
+                  
+                  {/* Add Snippet Button - positioned at bottom */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <button className="w-full text-sm btn-secondary p-2 rounded-md flex items-center justify-center">
+                      <i className="fas fa-plus mr-2"></i> Add Snippet
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
