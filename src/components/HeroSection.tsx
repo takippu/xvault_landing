@@ -7,7 +7,7 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 mb-12 md:mb-0">
           <div className="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
-            <span className="font-medium text-sm">📋 Secure Snippet Manager</span>
+            <span className="text-primaryBtn text-white font-medium text-sm">📋 Secure Snippet Manager</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
             Organize Your <span className="neon-text">Text Snippets</span> with xVault
@@ -16,12 +16,7 @@ export default function HeroSection() {
             The ultimate text snippet manager for Chrome that securely stores your frequently used text in customizable folders with end-to-end encryption.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <a 
-              href="https://chrome.google.com/webstore/category/extensions" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-primary px-8 py-3 rounded-full font-semibold text-lg flex items-center justify-center transform transition-all duration-300 hover:scale-105"
-            >
+            <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" className="btn-primary px-8 py-3 rounded-full font-semibold text-lg flex items-center justify-center transform transition-all duration-300 hover:scale-105">
               <i className="fab fa-chrome mr-2"></i> Add to Chrome - It's Free
             </a>
             <Link 

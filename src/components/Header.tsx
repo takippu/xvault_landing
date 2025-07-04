@@ -39,12 +39,20 @@ export default function Header() {
             <Link href="/#pricing" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Pricing</Link>
             <Link href="/#faq" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">FAQ</Link>
             <a 
-              href="https://chrome.google.com/webstore/category/extensions" 
+              href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="btn-primary px-8 py-3 rounded-full font-semibold mt-6 w-full max-w-xs flex items-center justify-center"
             >
               <i className="fab fa-chrome mr-2"></i> Add to Chrome
+            </a>
+            <a 
+              href="https://github.com/takippu/xvault" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-secondary px-8 py-3 rounded-full font-semibold w-full max-w-xs flex items-center justify-center"
+            >
+              <i className="fab fa-github mr-2"></i> GitHub
             </a>
           </nav>
         </div>
@@ -69,12 +77,20 @@ export default function Header() {
             <div className="flex items-center space-x-4">
               <ThemeToggle />
               <a 
-                href="https://chrome.google.com/webstore/category/extensions" 
+                href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn-primary px-6 py-2 rounded-full font-semibold hidden md:block"
               >
                 Add to Chrome
+              </a>
+              <a 
+                href="https://github.com/takippu/xvault" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-secondary px-6 py-2 rounded-full font-semibold flex items-center gap-2 hidden md:block"
+              >
+                <i className="fab fa-github mr-2"></i> GitHub
               </a>
               <button 
                 id="open-menu" 

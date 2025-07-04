@@ -6,56 +6,56 @@ export default function HowItWorksSection() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <span className="inline-block bg-primaryBtn bg-opacity-10 px-4 py-2 rounded-full mb-4">
-            <span className="font-medium text-sm">🚀 Simple Process</span>
+            <span className="text-primaryBtn text-white font-medium text-sm">🚀 Get Started Easily</span>
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">How xVault Works</h2>
           <p className="text-lg text-secondaryText max-w-2xl mx-auto">
-            Get started with xVault in just a few simple steps
+            Simple 3-step process to secure your digital life
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="relative w-20 h-20 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-2xl font-bold text-primaryBtn">1</span>
-              <div className="absolute top-1/2 left-full w-full h-0.5 bg-border hidden md:block"></div>
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="md:w-1/3 mb-8 md:mb-0 md:px-4">
+            <div className="bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300 h-full">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-primaryBtn rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">1</div>
+                <h3 className="text-xl font-bold">Install</h3>
+              </div>
+              <p className="text-secondaryText mb-6">Add xVault to your Chrome browser with one click from the Chrome Web Store.</p>
+              <div className="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                <img src="https://via.placeholder.com/500x300" alt="Install Extension" className="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700" />
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-3">Install the Extension</h3>
-            <p className="text-secondaryText">
-              Add xVault to Chrome with just one click from the Chrome Web Store.
-            </p>
           </div>
-          
-          <div className="text-center">
-            <div className="relative w-20 h-20 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-2xl font-bold text-primaryBtn">2</span>
-              <div className="absolute top-1/2 left-full w-full h-0.5 bg-border hidden md:block"></div>
+          <div className="md:w-1/3 mb-8 md:mb-0 md:px-4">
+            <div className="bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300 h-full">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-hover rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">2</div>
+                <h3 className="text-xl font-bold">Add Snippets</h3>
+              </div>
+              <p className="text-secondaryText mb-6">Create and organize your text snippets in customizable folders for quick access.</p>
+              <div className="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                <img src="https://via.placeholder.com/500x300" alt="Add Snippets" className="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700" />
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-3">Create Your Snippets</h3>
-            <p className="text-secondaryText">
-              Add your frequently used text snippets and organize them into folders.
-            </p>
           </div>
-          
-          <div className="text-center">
-            <div className="w-20 h-20 bg-primaryBtn bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-2xl font-bold text-primaryBtn">3</span>
+          <div className="md:w-1/3 md:px-4">
+            <div className="bg-secondaryBase p-8 rounded-xl border border-border hover:shadow-lg transition-all duration-300 h-full">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-secondaryText rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">3</div>
+                <h3 className="text-xl font-bold">Copy in 1 Click</h3>
+              </div>
+              <p className="text-secondaryText mb-6">Access and copy your snippets instantly whenever you need them with just one click.</p>
+              <div className="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                <img src="https://via.placeholder.com/500x300" alt="Copy in 1 Click" className="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700" />
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-3">Use Anywhere</h3>
-            <p className="text-secondaryText">
-              Access and paste your snippets with just one click wherever you need them.
-            </p>
           </div>
         </div>
         
         <div className="mt-16 text-center">
-          <a 
-            href="https://chrome.google.com/webstore/category/extensions" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105"
-          >
-            <i className="fab fa-chrome mr-2"></i> Install Now - It's Free
+          <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" className="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+            <i className="fab fa-chrome mr-2"></i> Start Managing Your Snippets
           </a>
         </div>
       </div>

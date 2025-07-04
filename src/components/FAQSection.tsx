@@ -13,7 +13,7 @@ export default function FAQSection() {
   const faqs: FAQItem[] = [
     {
       question: "What is xVault?",
-      answer: "xVault is a Chrome extension that helps you store and organize frequently used text snippets, such as code blocks, email templates, and more. It features end-to-end encryption to keep your data secure."
+      answer: "xVault is a Chrome extension that helps you store and organize frequently used text snippets, such as code blocks, email templates, and more. It features end-to-end encryption to keep your data secure. All features are now completely free."
     },
     {
       question: "Is my data secure with xVault?",
@@ -25,11 +25,11 @@ export default function FAQSection() {
     },
     {
       question: "How many snippets can I store?",
-      answer: "The free plan allows up to 19 snippets. Our Paid plan offer unlimited snippet storage."
+      answer: "There is no limit. xVault is now completely free and allows you to store unlimited snippets."
     },
     {
       question: "Can I organize my snippets into folders?",
-      answer: "Yes, all plans include folder organization."
+      answer: "Yes, all features including folder organization are free for everyone."
     },
     {
       question: "Is there a mobile app for xVault?",
