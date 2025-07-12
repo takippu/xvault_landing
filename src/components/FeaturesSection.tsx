@@ -1,3 +1,5 @@
+import BrowserAwareDownloadButton from './BrowserAwareDownloadButton';
+
 export default function FeaturesSection() {
   return (
     <section id="features" className="py-20 bg-secondaryBase">
@@ -63,9 +65,9 @@ export default function FeaturesSection() {
         </div>
         
         <div className="mt-16 text-center">
-          <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" className="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
-            <i className="fab fa-chrome mr-2"></i> Get xVault Now
-          </a>
+          <BrowserAwareDownloadButton variant="primary" size="md" className="inline-flex">
+            Get xVault Now
+          </BrowserAwareDownloadButton>
         </div>
       </div>
     </section>

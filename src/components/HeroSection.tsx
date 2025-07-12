@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { DownloadButton } from './BrowserAwareDownloadButton';
 
 export default function HeroSection() {
   return (
@@ -16,11 +17,9 @@ export default function HeroSection() {
             The ultimate text snippet manager for Chrome that securely stores your frequently used text in customizable folders with end-to-end encryption.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" className="btn-primary px-8 py-3 rounded-full font-semibold text-lg flex items-center justify-center transform transition-all duration-300 hover:scale-105">
-              <i className="fab fa-chrome mr-2"></i> Add to Chrome - It's Free
-            </a>
-            <Link 
-              href="#features" 
+            <DownloadButton fullText={true} />
+            <Link
+              href="#features"
               className="btn-secondary px-8 py-3 rounded-full font-semibold text-lg flex items-center justify-center transform transition-all duration-300 hover:scale-105"
             >
               <i className="fas fa-info-circle mr-2"></i> Learn More

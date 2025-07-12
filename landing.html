@@ -426,7 +426,7 @@
             </div>
             
             <div class="mt-16 text-center">
-                <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" class="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" class="btn-primary px-6 py-2 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
                     <i class="fab fa-chrome mr-2"></i> Get xVault Now
                 </a>
             </div>
@@ -488,7 +488,7 @@
             </div>
             
             <div class="mt-16 text-center">
-                <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" class="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
+                <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" class="btn-primary px-6 py-2 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
                     <i class="fab fa-chrome mr-2"></i> Start Managing Your Snippets
                 </a>
             </div>
@@ -738,6 +738,216 @@
     </footer>
 
     <script>
+        // Browser Detection and Dynamic Download Links
+        const EXTENSION_URLS = {
+            chrome: 'https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB',
+            firefox: 'https://addons.mozilla.org/en-US/firefox/addon/xvault/'
+        };
+
+        function detectBrowser() {
+            const userAgent = navigator.userAgent.toLowerCase();
+
+            // Firefox detection
+            if (userAgent.includes('firefox')) {
+                return {
+                    name: 'Firefox',
+                    isFirefox: true,
+                    isChromeBased: false,
+                    isSupported: true
+                };
+            }
+
+            // Chrome-based browsers detection
+            if (userAgent.includes('edg/') || userAgent.includes('edge/')) {
+                return {
+                    name: 'Microsoft Edge',
+                    isFirefox: false,
+                    isChromeBased: true,
+                    isSupported: true
+                };
+            }
+
+            if (userAgent.includes('opr/') || userAgent.includes('opera/')) {
+                return {
+                    name: 'Opera',
+                    isFirefox: false,
+                    isChromeBased: true,
+                    isSupported: true
+                };
+            }
+
+            if (userAgent.includes('brave/') || (userAgent.includes('chrome/') && userAgent.includes('brave'))) {
+                return {
+                    name: 'Brave',
+                    isFirefox: false,
+                    isChromeBased: true,
+                    isSupported: true
+                };
+            }
+
+            if (userAgent.includes('chrome/') && !userAgent.includes('edg/')) {
+                return {
+                    name: 'Google Chrome',
+                    isFirefox: false,
+                    isChromeBased: true,
+                    isSupported: true
+                };
+            }
+
+            // Fallback for other Chromium-based browsers
+            if (userAgent.includes('chromium/') || userAgent.includes('webkit/')) {
+                return {
+                    name: 'Chromium-based Browser',
+                    isFirefox: false,
+                    isChromeBased: true,
+                    isSupported: true
+                };
+            }
+
+            // Unsupported browsers
+            return {
+                name: 'Unknown Browser',
+                isFirefox: false,
+                isChromeBased: false,
+                isSupported: false
+            };
+        }
+
+        function getDownloadUrl(browser) {
+            if (browser.isFirefox) {
+                return EXTENSION_URLS.firefox;
+            }
+            return EXTENSION_URLS.chrome; // Default to Chrome Web Store
+        }
+
+        function getDownloadButtonText(browser) {
+            if (browser.isFirefox) {
+                return 'Add to Firefox';
+            }
+
+            if (browser.isChromeBased) {
+                switch (browser.name) {
+                    case 'Microsoft Edge':
+                        return 'Add to Edge';
+                    case 'Opera':
+                        return 'Add to Opera';
+                    case 'Brave':
+                        return 'Add to Brave';
+                    case 'Google Chrome':
+                        return 'Add to Chrome';
+                    default:
+                        return 'Install Extension';
+                }
+            }
+
+            return 'Download Extension';
+        }
+
+        function getDownloadButtonIcon(browser) {
+            if (browser.isFirefox) {
+                return 'fab fa-firefox-browser';
+            }
+
+            if (browser.isChromeBased) {
+                switch (browser.name) {
+                    case 'Microsoft Edge':
+                        return 'fab fa-edge';
+                    case 'Opera':
+                        return 'fab fa-opera';
+                    case 'Google Chrome':
+                        return 'fab fa-chrome';
+                    default:
+                        return 'fas fa-download';
+                }
+            }
+
+            return 'fas fa-download';
+        }
+
+        // Initialize browser-aware download links
+        function initializeBrowserAwareLinks() {
+            const browser = detectBrowser();
+            const downloadUrl = getDownloadUrl(browser);
+            const buttonText = getDownloadButtonText(browser);
+            const iconClass = getDownloadButtonIcon(browser);
+
+            // Find all download links and update them
+            const downloadLinks = document.querySelectorAll('a[href*="chromewebstore.google.com"], a[href*="chrome.google.com/webstore"], a[href*="chrome.google.com"]');
+
+            downloadLinks.forEach(link => {
+                // Handle unsupported browsers
+                if (!browser.isSupported) {
+                    link.href = '#';
+                    link.style.cursor = 'not-allowed';
+                    link.style.opacity = '0.75';
+                    link.title = 'Please use Chrome, Firefox, Edge, Opera, or Brave to install xVault';
+
+                    // Add click handler to show message
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('xVault is currently available for Chrome, Firefox, Edge, Opera, and Brave browsers. Please use one of these browsers to install the extension.');
+                    });
+
+                    // Update icon to warning
+                    const icon = link.querySelector('i[class*="fa-chrome"], i[class*="fab fa-"]');
+                    if (icon) {
+                        icon.className = 'fas fa-exclamation-triangle mr-2';
+                    }
+
+                    // Update text
+                    const textNodes = Array.from(link.childNodes).filter(node => node.nodeType === Node.TEXT_NODE);
+                    textNodes.forEach(textNode => {
+                        if (textNode.textContent.trim()) {
+                            textNode.textContent = ' Browser Not Supported';
+                        }
+                    });
+
+                    return; // Skip normal processing for unsupported browsers
+                }
+
+                // Update URL for supported browsers
+                link.href = downloadUrl;
+
+                // Update icon if present
+                const icon = link.querySelector('i[class*="fa-chrome"], i[class*="fab fa-"]');
+                if (icon) {
+                    // Remove existing browser-specific classes
+                    icon.className = icon.className.replace(/fab fa-\w+/g, '').replace(/fas fa-\w+/g, '');
+                    icon.className = `${iconClass} ${icon.className}`.trim();
+                }
+
+                // Update text content while preserving structure
+                const textNodes = Array.from(link.childNodes).filter(node => node.nodeType === Node.TEXT_NODE);
+                textNodes.forEach(textNode => {
+                    const text = textNode.textContent.trim();
+                    if (text.includes('Chrome') || text.includes('Add to') || text.includes('Get') || text.includes('Start')) {
+                        if (text.includes("It's Free")) {
+                            textNode.textContent = ` ${buttonText} - It's Free`;
+                        } else if (text.includes('Get') && text.includes('Now')) {
+                            textNode.textContent = ` Get xVault Now`;
+                        } else if (text.includes('Start')) {
+                            textNode.textContent = ` Start Managing Your Snippets`;
+                        } else {
+                            textNode.textContent = ` ${buttonText}`;
+                        }
+                    }
+                });
+
+                // Update title attribute
+                link.title = `Download xVault for ${browser.name}`;
+            });
+
+            // Show browser detection info in console for debugging
+            console.log('xVault Browser Detection:', {
+                browser: browser.name,
+                isSupported: browser.isSupported,
+                downloadUrl: downloadUrl
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeBrowserAwareLinks);
+
         // Theme toggle functionality
         const themeToggle = document.getElementById('theme-toggle');
         const themeToggleBall = document.getElementById('theme-toggle-ball');

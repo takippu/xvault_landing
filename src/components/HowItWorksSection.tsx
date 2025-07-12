@@ -1,3 +1,5 @@
+import BrowserAwareDownloadButton from './BrowserAwareDownloadButton';
+
 export default function HowItWorksSection() {
   return (
     <section id="how-it-works" className="py-20 relative overflow-hidden">
@@ -21,7 +23,7 @@ export default function HowItWorksSection() {
                 <div className="w-12 h-12 bg-primaryBtn rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 animate-pulse-slow">1</div>
                 <h3 className="text-xl font-bold">Install</h3>
               </div>
-              <p className="text-secondaryText mb-6">Add xVault to your Chrome browser with one click from the Chrome Web Store.</p>
+              <p className="text-secondaryText mb-6">Add xVault to your browser with one click from your browser's extension store.</p>
               <div className="rounded-lg w-full overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
                 <img src="https://via.placeholder.com/500x300" alt="Install Extension" className="w-full object-cover h-auto transform hover:scale-105 transition-transform duration-700" />
               </div>
@@ -54,9 +56,9 @@ export default function HowItWorksSection() {
         </div>
         
         <div className="mt-16 text-center">
-          <a href="https://chromewebstore.google.com/detail/xvault/lnlkddgipmbhfhigcdnialkpindadhgo?authuser=3&hl=en-GB" target="_blank" rel="noopener noreferrer" className="btn-primary px-8 py-3 rounded-full font-semibold inline-flex items-center justify-center transform transition-all duration-300 hover:scale-105">
-            <i className="fab fa-chrome mr-2"></i> Start Managing Your Snippets
-          </a>
+          <BrowserAwareDownloadButton variant="primary" size="md" className="inline-flex">
+            Start Managing Your Snippets
+          </BrowserAwareDownloadButton>
         </div>
       </div>
     </section>
