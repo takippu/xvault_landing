@@ -5,7 +5,7 @@ export default function Contact() {
     <PageTemplate title="Contact Us">
       <section className="mb-8">
         <p className="mb-6">
-          We'd love to hear from you! Whether you have a question about our features, pricing, or anything else, our team is ready to answer all your questions.
+          We'd love to hear from you! Whether you have a question about our features or anything else, our team is ready to answer all your questions.
         </p>
       </section>
 

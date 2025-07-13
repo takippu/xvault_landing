@@ -37,7 +37,7 @@ export default function Header() {
           <nav className="flex flex-col items-center space-y-8 p-8 flex-1">
             <Link href="/#features" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Features</Link>
             <Link href="/#how-it-works" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">How It Works</Link>
-            <Link href="/#pricing" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Pricing</Link>
+            {/* <Link href="/#pricing" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">Pricing</Link> */}
             <Link href="/#faq" className="nav-link font-medium text-xl w-full text-center py-2 border-b border-border border-opacity-30">FAQ</Link>
             <HeaderDownloadButton className="mt-6 w-full max-w-xs" />
             <a 
@@ -64,7 +64,7 @@ export default function Header() {
             <nav className="hidden md:flex items-center space-x-8">
               <Link href="/#features" className="nav-link font-medium hover:scale-105 transition-transform">Features</Link>
               <Link href="/#how-it-works" className="nav-link font-medium hover:scale-105 transition-transform">How It Works</Link>
-              <Link href="/#pricing" className="nav-link font-medium hover:scale-105 transition-transform">Pricing</Link>
+              {/* <Link href="/#pricing" className="nav-link font-medium hover:scale-105 transition-transform">Pricing</Link> */}
               <Link href="/#faq" className="nav-link font-medium hover:scale-105 transition-transform">FAQ</Link>
             </nav>
             
