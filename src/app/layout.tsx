@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // Font Awesome is used for icons in the landing page
 import Script from 'next/script';
-
+import { Analytics } from "@vercel/analytics/next"
+  
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({
         {/* Font Awesome */}
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" strategy="beforeInteractive" />
         {children}
+        <Analytics />
       </body>
     </html>
   );
