@@ -13,7 +13,7 @@ export default function FAQSection() {
   const faqs: FAQItem[] = [
     {
       question: "What is xVault?",
-      answer: "xVault is a Chrome extension that helps you store and organize frequently used text snippets, such as code blocks, email templates, and more. It features end-to-end encryption to keep your data secure. All features are now completely free."
+      answer: "xVault is a browser extension available for Chrome and Mozilla Firefox that helps you store and organize frequently used text snippets, such as code blocks, email templates, and more. It features end-to-end encryption to keep your data secure. All features are now completely free."
     },
     {
       question: "Is my data secure with xVault?",
@@ -32,8 +32,12 @@ export default function FAQSection() {
       answer: "Yes, all features including folder organization are free for everyone."
     },
     {
+      question: "Which browsers does xVault support?",
+      answer: "xVault is available for Google Chrome and Mozilla Firefox. The extension works seamlessly on both browsers with the same features and security standards."
+    },
+    {
       question: "Is there a mobile app for xVault?",
-      answer: "Currently, xVault is only available as a Chrome extension."
+      answer: "Currently, xVault is only available as a browser extension for Chrome and Mozilla Firefox."
     }
   ];
 
